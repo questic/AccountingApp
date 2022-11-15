@@ -1,0 +1,5 @@
+item_name,is_expense,quantity,sum_of_one
+Монитор,TRUE,3,15000
+ПК,TRUE,3,60000
+Продажа ПО номер раз,FALSE,5,9000
+Продажа ПО номер раз,FALSE,5,8000
