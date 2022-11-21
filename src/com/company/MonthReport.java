@@ -3,7 +3,7 @@ package com.company;
 import java.util.*;
 
 public class MonthReport {
-    private class Item {
+    private static class Item {
         String name;
         int sum;
     }
@@ -18,13 +18,17 @@ public class MonthReport {
         return monthDataMap.isEmpty();
     }
 
-    public void printReport() {
-        Item mostProfitableItem = new Item();
-        Item biggestWasteItem = new Item();
+    public HashMap<Integer, ArrayList<MonthData>> getMonthReport() {
+        return this.monthDataMap;
+    }
 
-        for (Map.Entry entry : monthDataMap.entrySet()) {
-            mostProfitableItem = getMostProfitableItem((ArrayList<MonthData>) entry.getValue());
-            biggestWasteItem = getBiggestWasteItem((ArrayList<MonthData>) entry.getValue());
+    public void printReport() {
+        Item mostProfitableItem;
+        Item biggestWasteItem;
+
+        for (Map.Entry<Integer, ArrayList<MonthData>> entry : monthDataMap.entrySet()) {
+            mostProfitableItem = getMostProfitableItem(entry.getValue());
+            biggestWasteItem = getBiggestWasteItem(entry.getValue());
             System.out.println("В месяце " + entry.getKey() +
                     " самый прибыльный товар " + mostProfitableItem.name +
                     " с ценой " + mostProfitableItem.sum +
@@ -36,14 +40,14 @@ public class MonthReport {
     private Item getMostProfitableItem(ArrayList<MonthData> monthData) {
         ArrayList<MonthData> monthDataExpense = new ArrayList<>();
         for (MonthData data : monthData) {
-            if (data.isExpense == false) {
+            if (!data.isExpense) {
                 monthDataExpense.add(data);
             }
         }
 
         ArrayList<Integer> profit = new ArrayList<>();
-        for (int i = 0; i < monthDataExpense.size(); i++) {
-            profit.add(monthDataExpense.get(i).sumOfOne * monthDataExpense.get(i).quantity);
+        for (MonthData data : monthDataExpense) {
+            profit.add(data.sumOfOne * data.quantity);
         }
 
         int maxProfit = Collections.max(profit, null);
@@ -58,14 +62,14 @@ public class MonthReport {
     private Item getBiggestWasteItem(ArrayList<MonthData> monthData) {
         ArrayList<MonthData> monthDataExpense = new ArrayList<>();
         for (MonthData data : monthData) {
-            if (data.isExpense == true) {
+            if (data.isExpense) {
                 monthDataExpense.add(data);
             }
         }
 
         ArrayList<Integer> waste = new ArrayList<>();
-        for (int i = 0; i < monthDataExpense.size(); i++) {
-            waste.add(monthDataExpense.get(i).sumOfOne * monthDataExpense.get(i).quantity);
+        for (MonthData data : monthDataExpense) {
+            waste.add(data.sumOfOne * data.quantity);
         }
 
         int maxWaste = Collections.max(waste, null);

@@ -1,6 +1,5 @@
 package com.company;
 
-import javax.swing.text.StyledEditorKit;
 import java.util.ArrayList;
 
 public class ParseContent {
